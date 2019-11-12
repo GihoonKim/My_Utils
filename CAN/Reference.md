@@ -1,0 +1,4 @@
+- can-utils : https://github.com/linux-can/can-utils
+- socketcan : https://www.kernel.org/doc/Documentation/networking/can.txt
+- kvaser can : https://www.kvaser.com/canlib-webhelp/page_example_c_candb.html
+- gen_sig : https://www.kvaser.com/canlib-webhelp/page_example_c_gensig.html
