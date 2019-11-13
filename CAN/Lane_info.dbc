@@ -1,0 +1,200 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_:
+
+
+BO_ 1829 CAR_EGO_SD: 8 Vector__XXX
+ SG_ EGO_D : 39|32@0- (0.01,0) [-2|2] "" Vector__XXX
+ SG_ EGO_S : 7|32@0+ (0.1,0) [0|1377.3] "" Vector__XXX
+
+BO_ 1828 CAR_EGO_B: 8 Vector__XXX
+ SG_ YAW : 7|32@0- (0.001,0) [-1.571|1.571] "" Vector__XXX
+
+BO_ 1827 CAR_EGO_A: 8 Vector__XXX
+ SG_ Y : 39|32@0+ (0.01,0) [0|1000000] "" Vector__XXX
+ SG_ X : 7|32@0+ (0.01,0) [0|1000000] "" Vector__XXX
+
+BO_ 1792 OBJ_INFO: 8 Vector__XXX
+ SG_ OBJ_BOOL : 7|8@0+ (1,0) [0|1] "" Vector__XXX
+ SG_ NUM_OBJ : 15|8@0+ (1,0) [0|20] "" Vector__XXX
+
+BO_ 1824 CAR20: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1809 CAR11: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1808 CAR10: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1801 CAR09: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1817 CAR19: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1816 CAR18: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1815 CAR17: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1814 CAR16: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1813 CAR15: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1812 CAR14: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1811 CAR13: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1810 CAR12: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1800 CAR08: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1799 CAR07: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1798 CAR06: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1797 CAR05: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1796 CAR04: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1795 CAR03: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1794 CAR02: 8 Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1793 CAR01: 8 Vector__XXX
+ SG_ VELOCITY : 39|16@0+ (0.01,0) [0|36.3] "" Vector__XXX
+ SG_ LANE_ID : 55|8@0- (1,0) [-4|10] "" Vector__XXX
+ SG_ FRENET_S : 7|16@0- (0.1,0) [-750|1377.3] "" Vector__XXX
+ SG_ FRENET_D : 23|16@0- (0.01,0) [-2|2] "" Vector__XXX
+
+BO_ 1825 LANE_INFO_A: 8 Vector__XXX
+ SG_ ALLIVE_CNT : 7|8@0+ (1,0) [0|255] "" Vector__XXX
+ SG_ LANE_ID : 15|8@0- (1,0) [-4|10] "" Vector__XXX
+
+BO_ 1826 LANE_INFO_B: 8 Vector__XXX
+ SG_ M_EXIT : 39|32@0+ (0.1,0) [0|1377.3] "" Vector__XXX
+ SG_ M_ENTER : 7|32@0+ (0.1,0) [0|1377.3] "" Vector__XXX
+
+
+
+BA_DEF_ SG_  "GenSigSendType" ENUM  "Cyclic","OnWrite","OnWriteWithRepetition","OnChange","OnChangeWithRepetition","IfActive","IfActiveWithRepetition","NoSigSendType";
+BA_DEF_ SG_  "GenSigInactiveValue" INT 0 0;
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 0;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","not_used","not_used","not_used","not_used","Cyclic","not_used","IfActive","NoMsgSendType";
+BA_DEF_ BU_  "NmStationAddress" HEX 0 0;
+BA_DEF_  "DBName" STRING ;
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenSigSendType" "Cyclic";
+BA_DEF_DEF_  "GenSigInactiveValue" 0;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "NoMsgSendType";
+BA_DEF_DEF_  "NmStationAddress" 0;
+BA_DEF_DEF_  "DBName" "";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "DBName" "Lane_info";
+BA_ "GenMsgCycleTime" BO_ 1826 0;
+
