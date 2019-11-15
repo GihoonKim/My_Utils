@@ -3,6 +3,7 @@
 # include <ros/ros.h>
 #include <limits>
 #include <fstream>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 # include <iostream>
@@ -16,6 +17,8 @@
 #include <map>
 # include <vector>
 # include <cstring>
+# include <typeinfo>
+#include <time.h>
 # include <mmc_msgs/to_control_team_from_local_msg.h>
 
 #define MOTOROLA 0
@@ -45,10 +48,11 @@ class DBC{
     DBC(const std::string &dbc_path);
     void parse(std::istream &reader);
 
-    map<string, pair<int,int>> msg_list;
-    map<string, pair<int,int>> sig_;
+    map<string, pair<int,unsigned char>> msg_list; //id, dlc
 
-    map<string, map<string,pair<int,int>>> sig_list;
+    map<string, pair<int,int>> sig_; //
+
+    map<string, map<string,pair<int,int>>> sig_list; //ms
 
     int num1;
     int num2;
@@ -99,7 +103,9 @@ void DBC::parse(std::istream & reader){
         // input>>else_;
         // std::cout<<else_<<std::endl;
         num1 = atoi(msg_id_.c_str());
+
         num2 = atoi(msg_dlc_.c_str());
+        // num2 = msg_dlc_;
         msg_list.insert(make_pair(msg_name_, make_pair(num1,num2)));
         is_msg = false;
 
@@ -159,13 +165,14 @@ void DBC::parse(std::istream & reader){
 
 DBC::DBC(const std::string & dbc_path){
   std::ifstream file_reader;
-  
-  
   file_reader.open(dbc_path);
+
   if (file_reader.is_open()) {
 
+
     DBC::parse(file_reader);
-    // std::cout<<DBC::sig_list["LANE_INFO_A:"].size()<<std::endl;
+    cout<<"Parser Finish"<<endl;
+    std::cout<<"AT DBC   "<<DBC::sig_list["LANE_INFO_A:"].size()<<std::endl;
     // std::cout<<DBC::sig_list["CAR20:"].size()<<std::endl;
 
 
@@ -179,14 +186,19 @@ static void clear_msg (unsigned char *msg)
 
 static int store_float (unsigned char *msg, int pos, int len, float f_value, int motorola)
 {
+  //value = 15
   int bpos = 0, bit = 0;
   // int len = sizeof (float) * 8;
   unsigned int value = 0;
-  if (sizeof (value) != sizeof (f_value)) return -1;
+
+  if (sizeof (value) != sizeof (f_value)) {cout<<"size mismatch"<<endl; return -1;}
+  
   memcpy (&value, &f_value, sizeof (value));
+  
   if ((pos >= 64) || (pos < 0) || (len < 1) || ((pos + len - 1) >= 64)) return -1;
   if (!msg) return -1;
-  bpos = pos / 8;
+
+  bpos = pos / 8;    //3
   bit = pos % 8;
   while (len > 0) {
     unsigned int mask = 0, v;
@@ -222,13 +234,15 @@ class can_sender{
     
 
     void callback_lane_info(const mmc_msgs::to_control_team_from_local_msg::ConstPtr &msg);
-    void Send_msg(const mmc_msgs::to_control_team_from_local_msg::ConstPtr &callback_msg);
     int open_port(const char* port);
+    int Encoding(unsigned char* msg, std::string msg_name, std::vector<pair<std::string,double>> value);
 
-    int read_can_port = 4;
     int soc;
     int alive_count = 0;
-
+    
+    struct sockaddr_can addr;
+    struct ifreq ifr;
+    
     std::vector<string> db_lane;
     std::vector<string> db_pos;
     
@@ -237,29 +251,39 @@ class can_sender{
     DBC db;
 
     can_sender(DBC db_);
-    struct can_frame frame;
+    
 
 };
 
 can_sender::can_sender(DBC db_) : db(db_)
 {
-    can_sender::open_port("can4");
+    can_sender::open_port("can0");
 
     db_lane.push_back("LANE_INFO_A:");
     db_lane.push_back("LANE_INFO_B:");
 
     db_pos.push_back("CAR_EGO_A:");
     db_pos.push_back("CAR_EGO_B:");
-    db_pos.push_back("CAR_EG)_SD:");
+    db_pos.push_back("CAR_EGO_SD:");
+}
+
+int can_sender::Encoding(unsigned char* msg, std::string msg_name, std::vector<pair<std::string,double>> value){
+
+  int num_sig = db.sig_list[msg_name].size();
+  std::cout<<"Msg name is ["<<msg_name<<"]"<<" num of signal in msg : "<<num_sig<<std::endl; ///////////////////////////////////////////////////////////////////////
+  for (int i=0; i<num_sig ;i++){
+    string sig_name = value.at(i).first;
+    std::cout<<i<<"th sig name is ["<<sig_name<<"]"<<endl;
+    std::cout<<sig_name<<"'s startbit is : "<<db.sig_list[msg_name][sig_name].first<<"   "<<sig_name<<"'s length is : "<<db.sig_list[msg_name][sig_name].second<<endl;
+
+  }
 }
 
 int can_sender::open_port(const char *port)
 {
-    struct ifreq ifr;
-    struct sockaddr_can addr;
-
     /* open socket */
     soc = socket(PF_CAN, SOCK_RAW, CAN_RAW);
+    // soc = socket(PF_CAN, SOCK_DGRAM, CAN_BCM);
 
     if(soc<0)
     {
@@ -268,7 +292,7 @@ int can_sender::open_port(const char *port)
     }
 
     addr.can_family = AF_CAN;
-    strcpy(ifr.ifr_name,port);
+    strcpy(ifr.ifr_name, port);
 
     if(ioctl(soc, SIOCGIFINDEX, &ifr)<0)
     {
@@ -277,8 +301,9 @@ int can_sender::open_port(const char *port)
     }
 
     addr.can_ifindex = ifr.ifr_ifindex;
+    printf("%s at index %d\n", port, ifr.ifr_ifindex);
 
-    fcntl(soc, F_SETFL, O_NONBLOCK);
+    
 
     if(bind(soc,(struct sockaddr*)&addr, sizeof(addr))<0)
     {
@@ -287,28 +312,40 @@ int can_sender::open_port(const char *port)
         
     }
 
+    fcntl(soc, F_SETFL, O_NONBLOCK);
+
     cout<<"CAN is Connected"<<endl;
 
     return 0;
 
 }
 
-void can_sender::Send_msg(const mmc_msgs::to_control_team_from_local_msg::ConstPtr &callback_msg)
-{
-
-
-  
-}
-
 
 void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_msg::ConstPtr &callback_msg)
 {
+  
   int retval;
   unsigned char msg[8];
   int start_bit;
   int length_;
   string sig_name;
   string msg_name;
+  struct can_frame frame;
+  std::vector<pair<string,double>> msg_vec;
+
+  clock_t start, end;
+
+  start = clock();
+
+  
+  
+
+  for (int check=0; check<15;check++){
+
+  msg_vec.clear();
+  msg_vec.push_back(make_pair("LANE_ID",1));
+  msg_vec.push_back(make_pair("ALLIVE_CNT",11));
+  can_sender::Encoding(msg, "LANE_INFO_A:", msg_vec);
 
   can_sender::alive_count +=1;
   if(can_sender::alive_count>255) {can_sender::alive_count = 0;}
@@ -316,26 +353,37 @@ void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_m
   /* LANE_INFO_A */
 
   msg_name = can_sender::db_lane.at(0);
-  frame.can_id = db.msg_list[msg_name].first;
+  frame.can_id = (unsigned int)db.msg_list[msg_name].first;
   frame.can_dlc = db.msg_list[msg_name].second;
   clear_msg(msg);
+
 
   sig_name = "LANE_ID";
   start_bit = db.sig_list[msg_name][sig_name].first;
   length_ = db.sig_list[msg_name][sig_name].second;
   store_float(msg, start_bit, length_, callback_msg->lane_id, MOTOROLA);
 
-  sig_name = "ALLIVE_COUNT";
+
+  sig_name = "ALLIVE_CNT";
   start_bit = db.sig_list[msg_name][sig_name].first;
   length_ = db.sig_list[msg_name][sig_name].second;
   store_float(msg, start_bit, length_, can_sender::alive_count, MOTOROLA);
 
-  // frame.data[0] = 0x11;  
+  // frame.data[0] = 0x11;
+  // frame.data[1] = 0x11;
+  // frame.data[2] = 0x11;
+  // frame.data[3] = 0x11;
+  // frame.data[4] = 0x11;
+  // frame.data[5] = 0x11;
+  // frame.data[6] = 0x11;
+  // frame.data[7] = 0x11;
   memcpy(frame.data, msg, sizeof(msg));
-  // strcpy(frame.data ,(const char*)msg);
 
-  retval = write(soc, &frame, sizeof(struct can_frame));
-
+  retval = write(soc, &frame, sizeof(frame));
+  // sendto
+  // retval = sendto(soc, &frame, sizeof(struct can_frame), 0, (struct sockaddr*)&addr, sizeof(addr));  
+  
+  
   /* LANE_INFO_B */
 
   msg_name = can_sender::db_lane.at(1);
@@ -355,7 +403,7 @@ void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_m
 
   memcpy(frame.data, msg, sizeof(msg));
   retval = write(soc, &frame, sizeof(struct can_frame));
-
+  // cout<<retval<<endl;
   /* CAR_EGO_A */
 
   msg_name = can_sender::db_pos.at(0);
@@ -366,16 +414,23 @@ void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_m
   sig_name = "X";
   start_bit = db.sig_list[msg_name][sig_name].first;
   length_ = db.sig_list[msg_name][sig_name].second;
-  store_float(msg, start_bit, length_, callback_msg->host_east, MOTOROLA);
+  
+  // std::cout<<callback_msg->host_east<<std::endl;
+  // printf("%.2f",callback_msg->host_east);
+  // std::cout<<typeid(callback_msg->host_east).name()<<std::endl;
 
+  store_float(msg, start_bit, length_, callback_msg->host_east, MOTOROLA);
+  
   sig_name = "Y";
   start_bit = db.sig_list[msg_name][sig_name].first;
   length_ = db.sig_list[msg_name][sig_name].second;
+
+  // std::cout<<(callback_msg->host_north)<<std::endl;
   store_float(msg, start_bit, length_, callback_msg->host_north, MOTOROLA);
 
   memcpy(frame.data, msg, sizeof(msg));
-  retval = write(soc, &frame, sizeof(struct can_frame));
-
+  // retval = write(soc, &frame, sizeof(struct can_frame));
+  retval = sendto(soc, &frame, sizeof(struct can_frame), 0, (struct sockaddr*)&addr, sizeof(addr));  
    /* CAR_EGO_B */
 
   msg_name = can_sender::db_pos.at(1);
@@ -390,6 +445,7 @@ void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_m
 
   memcpy(frame.data, msg, sizeof(msg));
   retval = write(soc, &frame, sizeof(struct can_frame));
+  std::cout<<retval<<std::endl;
 
   /* CAR_EGO_SD */
 
@@ -410,6 +466,15 @@ void can_sender::callback_lane_info(const mmc_msgs::to_control_team_from_local_m
 
   memcpy(frame.data, msg, sizeof(msg));
   retval = write(soc, &frame, sizeof(struct can_frame));
+
+  
+  }
+  end = clock();
+  
+  double result = (double)(end-start)/CLOCKS_PER_SEC;
+  std::cout<<"total time is : "<<result*1000<<std::endl;
+
+  // std::cout<<"Done : "<<end-start<<std::endl;
 }
 
 
@@ -418,7 +483,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "can_sender");
     ros::NodeHandle node("~");
 
-    DBC db("Lane_info.dbc");
+    DBC db("./src/control_response/can_sender/src/Lane_info.dbc");
     can_sender cp(db);
 
     // <mmc_msgs::to_control_team_from_local_msg>
